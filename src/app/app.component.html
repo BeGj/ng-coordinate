@@ -1,0 +1,74 @@
+<div class="w-screen h-screen bg-gray-600 relative overflow-hidden">
+  <div class="h-full w-full" #olMapContainer id="ol-map-container"></div>
+  <div class="bg-gray-900 h-full absolute left-0 top-0 p-2 prose prose-invert">
+    <h1>Input</h1>
+    <p>
+      Either enter a coordinate in the following forms, or click on the map.
+    </p>
+    <form [formGroup]="dmsFormGroup">
+      <h2>DMS</h2>
+      <input type="text" formControlName="dms" />
+      <button (click)="this.onSubmitDMS(this.dmsFormGroup.controls.dms.value)">
+        Submit
+      </button>
+    </form>
+
+    <form [formGroup]="latLonFormGroup">
+      <h2>LonLat</h2>
+      <p>Lon:</p>
+      <input type="number" formControlName="lon" />
+      <p>Lat:</p>
+      <input type="number" formControlName="lat" />
+
+      <button
+        (click)="
+          this.onSubmitLatLon(
+            this.latLonFormGroup.controls.lat.value,
+            this.latLonFormGroup.controls.lon.value
+          )
+        "
+      >
+        Submit
+      </button>
+    </form>
+
+    <form [formGroup]="mgrsFormGroup">
+      <h2>MGRS</h2>
+      <input type="text" formControlName="mgrs" />
+      <button
+        (click)="this.onSubmitMGRS(this.mgrsFormGroup.controls.mgrs.value)"
+      >
+        Submit
+      </button>
+    </form>
+
+    <form [formGroup]="wktFormGroup">
+      <h2>WKT</h2>
+      <input type="text" formControlName="wkt" />
+      <button (click)="this.onSubmitMGRS(this.wktFormGroup.controls.wkt.value)">
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <div
+    class="absolute right-0 top-0 h-full p-2 bg-gray-900 prose prose-invert transform-gpu duration-300 transition-all"
+    [ngClass]="{
+      'opacity-0 translate-x-[200px]': this.result$$() === undefined,
+      'opacity-100 translate-x-[0]': this.result$$() !== undefined,
+    }"
+  >
+    <h1>Output</h1>
+    <h2>HDMS</h2>
+    <p>{{ this.result$$()?.dms }}</p>
+
+    <h2>HDMS Clean</h2>
+    <p>{{ this.result$$()?.dmsWithoutSpace }}</p>
+    <h2>Lon, Lat</h2>
+    <p>{{ this.result$$()?.lonLat }}</p>
+    <h2>MGRS</h2>
+    <p>{{ this.result$$()?.mgrs }}</p>
+    <h2>WKT</h2>
+    <p>{{ this.result$$()?.wkt }}</p>
+  </div>
+</div>
